@@ -21,4 +21,17 @@ public interface iModel {
      * @return true -> успешно / false -> ошибка
      */
     boolean saveToyList(List<Toy> toyList);
+
+    /**
+     * добавить победителя розыгрыша в очередь на отправку
+     * @param toy - победитель розыгрыша
+     */
+    void addWinnerInQueue(Toy toy);
+
+
+    /**
+     * добавить победителя в файл
+     */
+    boolean saveWinnerInFile();
+
 }

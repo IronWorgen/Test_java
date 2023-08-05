@@ -23,11 +23,13 @@ public class MainController {
         window.put(2, "Добавить игрушку");
         window.put(3, "Редактировать игрушку");
         window.put(4, "Начать розыгрыш");
-        window.put(5, "Завершить работу");
+        window.put(5, "Отправить приз победителю розыгрыша(сохранить в файл)");
+        window.put(6, "Завершить работу");
 
         this.view = new ViewConsole(window);
         this.model = new Model();
     }
+
 
     public void run(){
         boolean flag = true;
@@ -60,6 +62,7 @@ public class MainController {
 
         }
     }
+
 
     /**
      * выбор функции программы
@@ -99,10 +102,6 @@ public class MainController {
 
                 String toyToEditName = view.selectToyToEdit();
                 toyList = model.getToyList();
-                //------------------------------------------------------------
-                // добавить проверку (есть ли игрушка с таким названием в модели)
-                // закончил тут
-                //----------------------------------------------------------------
                 int toyToEditIndex = toyIsFound(toyList, toyToEditName);
                 if (toyToEditIndex>=0){
                     Toy toyToEdit = toyList.get(toyToEditIndex);
@@ -127,10 +126,19 @@ public class MainController {
                 if (drawingWinner==null){
                     break;
                 }
+                model.addWinnerInQueue(drawingWinner);
                 view.showDrawing(drawingWinner);
                 break;
 
-            case 5:// Завершить работу
+            case  5://отправить приз победителю розыгрыша
+                if (model.saveWinnerInFile()){
+                    view.showMessage("игрушка отправлена победителю");
+                }else {
+                    view.showError("очередь на отправку пуста");
+                }
+                break;
+
+            case 6:// Завершить работу
                 System.out.println("До свидания");
                 return false;
         }
@@ -172,6 +180,7 @@ public class MainController {
 
     }
 
+
     /**
      *
      * @param toyList - список игрушек, в котором будет выполнен поиск
@@ -186,8 +195,5 @@ public class MainController {
         }
         return -1;
     }
-
-
-
 
 }

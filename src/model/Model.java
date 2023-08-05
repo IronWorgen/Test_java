@@ -1,5 +1,9 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class Model implements iModel{
@@ -8,10 +12,7 @@ public class Model implements iModel{
     Queue winners;
 
     public Model() {
-        this.toyList = new ArrayList<>(Arrays.asList(new Toy[]{new Toy(1, "car", 2),
-                new Toy(2, "bal", 1)}));
-        toyList.get(0).setDrop(0.1);
-        toyList.get(1).setDrop(0.1);
+        this.toyList = new ArrayList<>();
         this.winners = new PriorityQueue();
     }
 
@@ -57,6 +58,38 @@ public class Model implements iModel{
     @Override
     public boolean saveToyList(List<Toy> toyList) {
         this.toyList = toyList;
+        return true;
+    }
+
+    /**
+     * добавить победителя розыгрыша в очередь на отправку
+     * @param toy - победитель розыгрыша
+     */
+    @Override
+    public void addWinnerInQueue(Toy toy) {
+        winners.add(toy);
+    }
+
+    /**
+     * добавить победителя в файл
+     *
+     */
+    @Override
+    public boolean saveWinnerInFile() {
+        if (winners.size()==0){
+            return false;
+        }
+
+        Toy toy = (Toy) winners.poll();
+        try(FileWriter writer = new FileWriter("winners.txt", true))
+        {
+            String winnerToy = String.format("название игрушки - %s\n", toy.getName())+
+                    "\n-----------------------------------\n\n";
+            writer.append(winnerToy);
+        }
+        catch(IOException ex){
+            System.out.println("файл не существует");
+        }
         return true;
     }
 }

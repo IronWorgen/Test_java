@@ -84,4 +84,14 @@ public class Toy implements Comparable {
         newToy.setDrop(this.getDrop());
         return newToy;
     }
+
+    @Override
+    public String toString() {
+        return "Toy{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", quantity=" + quantity +
+                ", drop=" + drop +
+                '}';
+    }
 }

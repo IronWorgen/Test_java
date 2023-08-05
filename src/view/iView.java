@@ -51,4 +51,6 @@ public interface iView {
      * @param message - текст сообщения
      */
     void showMessage(String message);
+
+
 }
