@@ -2,7 +2,7 @@ package view;
 
 import model.Toy;
 
-import java.sql.SQLOutput;
+
 import java.util.*;
 
 public class ViewConsole implements iView{
@@ -31,12 +31,13 @@ public class ViewConsole implements iView{
 
     @Override
     public void showToyList(List<Toy> toyList) {
+
         System.out.println("\nСписок игрушек:");
         System.out.println("------------------------------------------------");
         for (int i = 0; i < toyList.size()-1; i++) {
-            System.out.printf("%s. %s\n",i+1, toyList.get(i).getName() );
+            System.out.printf("%d. %s - %dшт.\n",i+1, toyList.get(i).getName(),toyList.get(i).getQuantity()  );
         }
-        System.out.printf("%s. %s\n",toyList.size(), toyList.get(toyList.size()-1).getName() );
+        System.out.printf("%d. %s - %dшт.\n",toyList.size(), toyList.get(toyList.size()-1).getName(), toyList.get(toyList.size()-1).getQuantity());
         System.out.println("------------------------------------------------");
     }
 
@@ -120,18 +121,165 @@ public class ViewConsole implements iView{
     public String selectToyToEdit() {
         System.out.print("Введите название игрушки:\t");
         Scanner scanner = new Scanner(System.in);
-        String toyName = scanner.nextLine();
+        String toyName = scanner.nextLine().trim();
         return  toyName;
     }
 
     @Override
     public Toy editToy(Toy toy) {
-        return null;
+        System.out.println("\nРедактирование игрушки:");
+        System.out.println("--------------------------------------------");
+        boolean flagEdit = true;
+
+        Toy editedToy = toy.clone();
+        boolean nameIsEdited = false;
+        boolean quantityIsEdited = false;
+        boolean dropIsEdited = false;
+
+        while(flagEdit) {
+            Scanner scanner;
+            System.out.println("Выберите поле для редактирования:");
+            System.out.printf("1. Название: %s\n",
+                    nameIsEdited ? String.format("Изменено %s -> %s",toy.getName(), editedToy.getName()):
+                            toy.getName());
+            System.out.printf("2. Количество: %s\n",
+                    quantityIsEdited ? String.format("Изменено %dшт. -> %dшт.",toy.getQuantity(), editedToy.getQuantity()):
+                            toy.getQuantity());
+            System.out.printf("3. Шанс выпадения: %s\n",
+                    dropIsEdited ? String.format("Изменено %f -> %f",toy.getDrop(), editedToy.getDrop()):
+                    toy.getDrop());
+            System.out.println("4. Сохранить");
+            System.out.println("5. Отмена ");
+            System.out.println("--------------------------------------------");
+            System.out.print(": ");
+
+
+            boolean flag = true;
+            int userInput = 0;
+            while (flag) {
+                flag = false;
+                try {
+                    scanner = new Scanner(System.in);
+                    userInput = scanner.nextInt();
+                } catch (Exception e) {
+                    showError("Введите номер раздела(число)!");
+                    flag = true;
+                }
+            }
+
+            switch (userInput) {
+                case 1:// Название
+                    System.out.print("Введите новое название: ");
+                    scanner = new Scanner(System.in);
+                    editedToy.setName(scanner.nextLine().trim());
+                    nameIsEdited = true;
+                    break;
+
+                case 2:// Количество
+                    flag = true;
+                    int newQuantity=0;
+                    while(flag) {
+                        flag =false;
+                        System.out.print("Введите новое количество: ");
+
+                        try {
+                            scanner = new Scanner(System.in);
+                            newQuantity = scanner.nextInt();
+                            if(newQuantity<0){
+                                showError("Количество не может быть отрицательным");
+                                flag=true;
+                            }
+
+
+                        }catch (Exception e){
+                            showError("Количество должно быть целым числом");
+                            flag=true;
+                        }
+                    }
+                    editedToy.setQuantity(newQuantity);
+                    quantityIsEdited = true;
+                    break;
+
+                case 3:// Шанс выпадения
+                    flag = true;
+                    double newDrop= 0 ;
+                    while(flag) {
+                        flag =false;
+                        System.out.print("Введите новый шанс выпадения:");
+
+                        try {
+                            scanner = new Scanner(System.in);
+                            newDrop = scanner.nextDouble();
+                            if(newDrop<0||newDrop>=1){
+                                showError("Шанс выпадения должен быть в диапазоне [0,1)");
+                                flag=true;
+                            }
+
+                        }catch (Exception e){
+                            showError("Количество должно быть дробным числом числом(разделитель \",\")");
+                            flag=true;
+                        }
+                    }
+                    editedToy.setDrop(newDrop);
+                    dropIsEdited = true;
+                    break;
+
+                case 4:// Сохранить
+                    if (nameIsEdited||quantityIsEdited||dropIsEdited) {
+                        showMessage("Подтвердить сохранение?(y/n)");
+                        boolean inputIsFalse = true;
+                        while (inputIsFalse) {
+                            inputIsFalse = false;
+                            scanner = new Scanner(System.in);
+                            String input = scanner.nextLine().trim().toLowerCase();
+                            if (input.equals("y")) {
+                                return editedToy;
+                            } else if (input.equals("n")) {
+                                flagEdit = true;
+                            } else {
+                                showError("Чтобы сохранить все изменения введите \"y\", чтобы продолжить редактирование \"n\"");
+                                inputIsFalse = true;
+                            }
+                        }
+                    }else {
+                        showError("Вы не внесли изменений");
+                        flagEdit = true;
+                    }
+                    break;
+
+                case 5://Отмена изменений
+                    if (nameIsEdited||quantityIsEdited||dropIsEdited) {
+                        showMessage("Внесенные изменения не сохранятся. Выйти без сохранения?(y/n)");
+                        boolean inputIsFalse = true;
+                        while (inputIsFalse) {
+                            inputIsFalse = false;
+                            scanner = new Scanner(System.in);
+                            String input = scanner.nextLine().trim().toLowerCase();
+                            if (input.equals("y")) {
+                                return toy;
+                            } else if (input.equals("n")) {
+                                flagEdit = true;
+                            } else {
+                                showError("Чтобы отменить все изменения введите \"y\", чтобы продолжить редактирование \"n\"");
+                                inputIsFalse = true;
+                            }
+                        }
+                    }else {
+                        showMessage("Редактирование отменено");
+                        flagEdit = false;
+                    }
+                    break;
+
+            }
+        }
+        return toy;
     }
 
     @Override
     public void showDrawing(Toy toy) {
-
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.printf("ПОБЕДИТЕЛЬ РОЗЫГРЫША - %s\n",toy.getName());
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }
 
     @Override
@@ -164,7 +312,5 @@ public class ViewConsole implements iView{
         System.out.println("\n");
 
     }
-
-
 
 }

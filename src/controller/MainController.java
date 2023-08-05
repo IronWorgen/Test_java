@@ -70,7 +70,11 @@ public class MainController {
 
         switch (userInput){
             case 1://показать список игрушек
-                toyList=  model.getToyList();
+                toyList =  model.getToyList();
+                if (toyList.size()==0){
+                    view.showMessage("Список игрушек пуст!");
+                    break;
+                }
                 view.showToyList(toyList);
                 System.out.print("Нажмите 'enter' чтобы вернуться на главный экран");
                 Scanner scanner = new Scanner(System.in);
@@ -100,7 +104,7 @@ public class MainController {
                 // закончил тут
                 //----------------------------------------------------------------
                 int toyToEditIndex = toyIsFound(toyList, toyToEditName);
-                if (toyToEditIndex>0){
+                if (toyToEditIndex>=0){
                     Toy toyToEdit = toyList.get(toyToEditIndex);
                     Toy editedToy = view.editToy(toyToEdit);
                     if (toyToEdit.compareTo(editedToy)!=0){
@@ -118,8 +122,11 @@ public class MainController {
                 break;
 
             case 4:// Начать розыгрыш
-                toyList=  model.getToyList();
-                Toy drawingWinner = startDrawing(toyList);
+                toyList= model.getToyList();
+                var  drawingWinner = startDrawing(toyList);
+                if (drawingWinner==null){
+                    break;
+                }
                 view.showDrawing(drawingWinner);
                 break;
 
@@ -135,14 +142,14 @@ public class MainController {
      * @return - победитель розыгрыша
      */
     private Toy startDrawing (List<Toy> toyList)  {
-
+        toyList = model.getToyList();
         List<Integer> randomDrawingList = new ArrayList<>(0);
         for (int i = 0; i < toyList.size(); i++) {
             if (toyList.get(i).getQuantity()==0){
                 continue;
             }
 
-            for (int j = 0; i < (int)(toyList.get(i).getDrop()*100); i++) {
+            for (int j = 0; j < (int)(toyList.get(i).getDrop()*100); j++) {
                 randomDrawingList.add(i);
             }
         }
@@ -156,7 +163,10 @@ public class MainController {
             Toy winnerClone = winner.clone();
             winnerClone.setQuantity(1);
             return winnerClone;
+        }else {
+            view.showError("нет игрушек доступных для розыгрыша");
         }
+
         return null;
 
 

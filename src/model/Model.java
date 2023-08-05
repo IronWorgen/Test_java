@@ -8,17 +8,16 @@ public class Model implements iModel{
     Queue winners;
 
     public Model() {
-        this.toyList = new ArrayList<>();
+        this.toyList = new ArrayList<>(Arrays.asList(new Toy[]{new Toy(1, "car", 2),
+                new Toy(2, "bal", 1)}));
+        toyList.get(0).setDrop(0.1);
+        toyList.get(1).setDrop(0.1);
         this.winners = new PriorityQueue();
     }
 
     @Override
     public List<Toy> getToyList() {
-
-
-        return new ArrayList<Toy>(Arrays.asList(new Toy[]{new Toy("игрушка 1"),
-                new Toy("игрушка 2"),
-                new Toy("игрушка 3")}));
+        return toyList;
     }
 
     /**
@@ -28,7 +27,24 @@ public class Model implements iModel{
      */
     @Override
     public boolean addToy(Toy newToy) {
+        boolean toyIsFound =  false;
+        int index=0;
+        for (int i = 0; i < toyList.size(); i++) {
+            String currentToyName = toyList.get(i).getName();
+            if (currentToyName.equals(newToy.getName())){
+                toyIsFound= true;
+                index = i;
 
+            }
+        }
+
+        if (toyIsFound){
+            Toy  faundetToy = toyList.get(index);
+            faundetToy.setQuantity(faundetToy.getQuantity() + newToy.getQuantity());
+        }else {
+            newToy.setId(toyList.size());
+            toyList.add(newToy);
+        }
 
         return true;
     }
@@ -40,6 +56,7 @@ public class Model implements iModel{
      */
     @Override
     public boolean saveToyList(List<Toy> toyList) {
+        this.toyList = toyList;
         return true;
     }
 }

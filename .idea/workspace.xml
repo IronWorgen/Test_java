@@ -4,22 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57421006-aaa0-40dd-9491-7f13f5479295" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Test java.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/MainController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/Model.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/Toy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/iModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/ViewConsole.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/iView.java" afterDir="false" />
+    <list default="true" id="57421006-aaa0-40dd-9491-7f13f5479295" name="Changes" comment="view add complete">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/ViewConsole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/ViewConsole.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,6 +76,33 @@
       <option name="presentableId" value="Default" />
       <updated>1690635850220</updated>
     </task>
+    <task id="LOCAL-00001" summary="view add complete">
+      <created>1691250176754</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1691250176754</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="view add complete" />
+    <option name="LAST_COMMIT_MESSAGE" value="view add complete" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/controller/MainController.java</url>
+          <line>180</line>
+          <properties class="controller.MainController" method="toyIsFound">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
